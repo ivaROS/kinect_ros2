@@ -8,7 +8,7 @@ def generate_launch_description():
         [
             launch_ros.actions.Node(
                 package="kinect_ros2",
-                executable="kinect_ros2_node",
+                executable="kinect_node",
                 name="kinect_ros2",
                 namespace="kinect"
             ),
