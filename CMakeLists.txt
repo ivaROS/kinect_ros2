@@ -14,7 +14,7 @@ find_package(ament_index_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 # find_package(Threads REQUIRED)
 
-find_package(libfreenect REQUIRED)
+find_package(libfreenect-dev REQUIRED)
 find_package(OpenCV REQUIRED)
 
 find_package(sensor_msgs REQUIRED)
@@ -24,10 +24,10 @@ find_package(image_transport REQUIRED)
 find_package(depth_image_proc REQUIRED)
 find_package(camera_info_manager REQUIRED)
 
-add_library(kinect_ros2_component SHARED src/kinect_ros2_component.cpp)
-target_compile_definitions(kinect_ros2_component
+add_library(kinect_component SHARED src/kinect_component.cpp)
+target_compile_definitions(kinect_component
   PRIVATE "COMPOSITION_BUILDING_DLL")
-ament_target_dependencies(kinect_ros2_component 
+ament_target_dependencies(kinect_component 
   rclcpp
   sensor_msgs
   std_msgs
@@ -37,25 +37,25 @@ ament_target_dependencies(kinect_ros2_component
   ament_index_cpp
   image_transport
   OpenCV)
-target_link_libraries(kinect_ros2_component
+target_link_libraries(kinect_component
   freenect)
-rclcpp_components_register_nodes(kinect_ros2_component "kinect_ros2::KinectRosComponent")
+rclcpp_components_register_nodes(kinect_component "kinect::KinectRosComponent")
 
-add_executable(kinect_ros2_node
-  src/kinect_ros2_node.cpp)
-target_link_libraries(kinect_ros2_node
-  kinect_ros2_component)
-ament_target_dependencies(kinect_ros2_node
+add_executable(kinect_node
+  src/kinect_node.cpp)
+target_link_libraries(kinect_node
+  kinect_component)
+ament_target_dependencies(kinect_node
   "rclcpp")
 
 install(TARGETS
-  kinect_ros2_component
+  kinect_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
 install(TARGETS
-  kinect_ros2_node
+  kinect_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(

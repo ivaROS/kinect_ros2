@@ -1,10 +1,46 @@
 # `kinect_ros2`
 
+This branch is for using the Ubuntu system packages for working with `freenect` to interface the
+Kinect v1 RGBD camera.  For Ubuntu 22.04 (and most likely later), the freenect libraries have
+downloadable packages.  However, the placement of the development files differs from the custom
+compile and install placement.  The system version is also missing the needed CMake specification; 
+solutions are to custom add a libfreenect.cmake file to `/usr/share/...` or to modify the CMakeLists file.
+Either way, there are enough differences to require a separate branch.
+
+Provides basic Kinect-v1 (for the Xbox 360) node with IPC support for a single Kinect device. 
+If multiple devices present, the first one listed by the `freenect_num_devices` will be selected.
+
+## Installing
+
+**1. Get repo. **
+Go to target ROS2 workspace and clone the repo into the `src` folder:
+~~~
+git clone -b system https://github.com/ivaROS/kinect_ros2
+~~~
+
+**2. Dependencies. **
+Install any missing ROS packages via `rosdep`.  From within the top of the workspace, use `rosdep`
+to install missing ROS2 dependencies.
+~~~
+rosdep install --from-paths src --ignore-src -r -y
+~~~
+
+**3. Build.**
+Either build the workspace or custom build the new package via `colcon`. 
+~~~
+colcon build
+~~~
+or
+~~~
+colcon --packages-select kinect
+~~~
+
 ## Interface
 
-### Overview
-Basic Kinect-v1 (for the Xbox 360) node, with IPC support, based on [libfreenect](https://github.com/OpenKinect/libfreenect).
-For now, it only supports a single Kinect device. (If multiple devices present, the first one listed by the `freenect_num_devices` will be selected).
+To get the ROS2 topics published,
+~~~
+ros2 run kinect kinect_ros2_node
+~~~
 
 ### Published topics
 * `~image_raw` - RGB image(rgb8) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
@@ -12,30 +48,6 @@ For now, it only supports a single Kinect device. (If multiple devices present, 
 * `~depth/image_raw` - Depth camera image(mono16) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
 * `~depth/camera_info` - Depth camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html))
 
-## Instalation
-### 1. Install libfreenect
-The package was tested using a manual build from the [libfreenect](https://github.com/OpenKinect/libfreenect) github because the Kinect used, had a firmware version that requires specific build flags.
-
-### 2. Copy the repo
-Copy the repo to your workspace source folder.
-~~~
-cd ~/ws/src
-git clone https://github.com/fadlio/kinect_ros2
-~~~
-
-### 3. Install any missing ROS packages
-Use `rosdep` from the top directory of your workspace to install any missing ROS related dependency.
-~~~
-cd ~/ws
-rosdep install --from-paths src --ignore-src -r -y
-~~~
-
-### 4. Build your workspace
-From the top directory of your workspace, use `colcon` to build your packages.
-~~~
-cd ~/ws
-colcon build
-~~~
 
 ## Using this package
 

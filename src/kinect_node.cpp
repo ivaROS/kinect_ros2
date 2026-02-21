@@ -1,5 +1,5 @@
 #include "rclcpp/rclcpp.hpp"
-#include "kinect_ros2/kinect_ros2_component.hpp"
+#include "kinect_ros2/kinect_component.hpp"
 #include "class_loader/class_loader.hpp"
 #include "ament_index_cpp/get_package_prefix.hpp"
 #include "rclcpp_components/node_factory.hpp"
