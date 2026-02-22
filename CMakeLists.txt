@@ -7,6 +7,10 @@ endif()
 
 include_directories(include)
 
+# Adding system version install location specifications for freenect.
+set(libfreenect_dir "/usr/include")
+include_directories(include ${libfreenect_dir})
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp_components REQUIRED)
@@ -14,7 +18,7 @@ find_package(ament_index_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 # find_package(Threads REQUIRED)
 
-find_package(libfreenect-dev REQUIRED)
+#find_package(libfreenect-dev REQUIRED)
 find_package(OpenCV REQUIRED)
 
 find_package(sensor_msgs REQUIRED)
