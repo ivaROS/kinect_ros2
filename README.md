@@ -71,7 +71,5 @@ or
 colcon --packages-select kinect_ros2
 ~~~
 
-## Using this package
-
-## Devices tested
+### Devices tested
 * Kinect Model 1473
