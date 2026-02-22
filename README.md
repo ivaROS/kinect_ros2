@@ -1,5 +1,7 @@
 # `kinect_ros2`
 
+This branch is the original forked branch.  Do not use!  The `system` branch works for Kinect using the system `freenect` libraries, while the `custom` branch is based on the `freenect` git library installed to `/usr/local`.
+
 ## Interface
 
 ### Overview
