@@ -21,14 +21,46 @@ would be done through a file in the `/etc/ld.so.conf.d/` directory.
 If the proper `libc` packages are installed, then `libc.conf` will exist and point to
 `/usr/local/lib`.  Check that it is so.  If not, then add a `local.conf` file to do so:
 
-> sudo echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf
+~~~
+sudo echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf
+sudo ldconfig
+~~~
 
-## Interface
+### Install ROS2 package
+
+Go to target ROS2 workspace and clone the repo into the `src` folder:
+~~~
+git clone -b system https://github.com/ivaROS/kinect_ros2
+~~~
+
+**2. Dependencies.**
+Install any missing ROS packages via `rosdep`.  From within the top of the workspace, use `rosdep`
+to install missing ROS2 dependencies.
+~~~
+rosdep install --from-paths src --ignore-src -r -y
+~~~
+
+**3. Build.**
+Either build the workspace or custom build the new package via `colcon`.
+~~~
+colcon build
+~~~
+or
+~~~
+colcon --packages-select kinect_ros2
+~~~
+
+## Interface and Usage
 
 To get the ROS2 topics published,
 ~~~
-ros2 run kinect kinect_node
+ros2 run kinect_ros2 kinect_node
 ~~~
+
+assuming that the top-level name was not changed.
+It should not have been since such an edit would be a bit more massive and affect the code.
+However, eventually it should be since the idea of tacking `ros2` onto the name makes no sense
+given that the `ros2` command is being used.  It is redundant.
 
 ### Published topics
 * `~image_raw` - RGB image(rgb8) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
@@ -36,30 +68,16 @@ ros2 run kinect kinect_node
 * `~depth/image_raw` - Depth camera image(mono16) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
 * `~depth/camera_info` - Depth camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html))
 
-## Instalation
+### Confirming functionality
 
-### 2. Copy the repo
-Copy the repo to your workspace source folder.
+Sample viewers are provided to confirm the implementation.  One for the color image:
 ~~~
-cd ~/ws/src
-git clone https://github.com/fadlio/kinect_ros2
+ros2 launch kinect_ros2 showimage.launch.py
 ~~~
-
-### 3. Install any missing ROS packages
-Use `rosdep` from the top directory of your workspace to install any missing ROS related dependency.
+One for the depth image as remapped to a point cloud:
 ~~~
-cd ~/ws
-rosdep install --from-paths src --ignore-src -r -y
+ros2 launch kinect_ros2 pointcloud.launch.py
 ~~~
 
-### 4. Build your workspace
-From the top directory of your workspace, use `colcon` to build your packages.
-~~~
-cd ~/ws
-colcon build
-~~~
-
-## Using this package
-
-## Devices tested
+### Devices tested
 * Kinect Model 1473
