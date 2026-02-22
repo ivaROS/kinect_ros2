@@ -1,4 +1,4 @@
-# `kinect_ros2`
+# System `kinect_ros2`
 
 This branch is for using the Ubuntu system packages for working with `freenect` to interface the
 Kinect v1 RGBD camera.  For Ubuntu 22.04 (and most likely later), the freenect libraries have
@@ -12,13 +12,13 @@ If multiple devices present, the first one listed by the `freenect_num_devices` 
 
 ## Installing
 
-**1. Get repo. **
+**1. Get repo.**
 Go to target ROS2 workspace and clone the repo into the `src` folder:
 ~~~
 git clone -b system https://github.com/ivaROS/kinect_ros2
 ~~~
 
-**2. Dependencies. **
+**2. Dependencies.**
 Install any missing ROS packages via `rosdep`.  From within the top of the workspace, use `rosdep`
 to install missing ROS2 dependencies.
 ~~~
@@ -32,15 +32,16 @@ colcon build
 ~~~
 or
 ~~~
-colcon --packages-select kinect
+colcon --packages-select kinect_ros2
 ~~~
 
 ## Interface
 
 To get the ROS2 topics published,
 ~~~
-ros2 run kinect kinect_ros2_node
+ros2 run kinect_ros2 kinect_node
 ~~~
+assuming that the top-level name was not changed.
 
 ### Published topics
 * `~image_raw` - RGB image(rgb8) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
@@ -48,6 +49,27 @@ ros2 run kinect kinect_ros2_node
 * `~depth/image_raw` - Depth camera image(mono16) ([sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html))
 * `~depth/camera_info` - Depth camera_info ([sensor_msgs/CameraInfo](http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html))
 
+Go to target ROS2 workspace and clone the repo into the `src` folder:
+~~~
+git clone -b system https://github.com/ivaROS/kinect_ros2
+~~~
+
+**2. Dependencies.**
+Install any missing ROS packages via `rosdep`.  From within the top of the workspace, use `rosdep`
+to install missing ROS2 dependencies.
+~~~
+rosdep install --from-paths src --ignore-src -r -y
+~~~
+
+**3. Build.**
+Either build the workspace or custom build the new package via `colcon`. 
+~~~
+colcon build
+~~~
+or
+~~~
+colcon --packages-select kinect_ros2
+~~~
 
 ## Using this package
 
